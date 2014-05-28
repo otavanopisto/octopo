@@ -1,0 +1,14 @@
+h3(class="list-group-item-heading")
+  span(class="story-estimation-story-number")
+    = issue.number
+  span(class="story-estimation-story-title")
+    = issue.title
+div
+  each epic in issue.epics 
+    div(class="label label-default story-estimation-epic",style='background:#'+ epic.color)
+      = epic.name
+  each tag in issue.tags
+    div(class="label label-default story-estimation-tag",style='background:#'+ tag.color)
+      = tag.name
+p
+  != issue.body

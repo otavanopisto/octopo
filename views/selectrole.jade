@@ -1,0 +1,19 @@
+extend layout
+block head
+  link(rel='stylesheet', href='theme.css')
+block header
+block content
+  div(class="jumbotron")
+    h1
+      |Role Select
+    p
+      |Select your role for this session
+  div(class="page-header")
+    Role Select
+  div(class="row")
+    div(class="col-md-6")
+      a(class="btn btn-lg btn-primary",href="/selectrole?role=master")
+        |Master
+      | 
+      a(class="btn btn-lg btn-info",href="/selectrole?role=participant")
+        |Participant

@@ -1,0 +1,134 @@
+body {
+    padding-bottom: 30px;
+    padding-top: 70px;
+}
+.theme-dropdown .dropdown-menu {
+    display: block;
+    margin-bottom: 20px;
+    position: static;
+}
+.theme-showcase > p > .btn {
+    margin: 5px 0;
+}
+
+.story-list-epic, .story-estimation-epic,
+.story-list-tag, .story-estimation-tag {
+  color: #000;
+  display: inline-block;
+}
+
+.story-list-group h4 {
+  cursor: pointer;
+}
+
+.story-estimation-story-number:before {
+  content: '#';
+  padding-right: 2px;
+}
+
+.story-estimation-story-title:before {
+  content: '-';
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.story-list-story-number:before {
+  content: '#';
+  padding-right: 2px;
+}
+
+.story-list-story-title:before {
+  content: '-';
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.story-estimation-participants {
+  position: absolute;  
+  right: 16px;
+  margin-top: -16px;
+}
+
+.story-estimation-participant {
+  height: 36px;
+}
+
+.story-estimation-participant img {
+  border-radius: 8px;
+}
+
+.story-estimation-participant-estimate {
+  transition: all .4s ease; 
+  width: 0px;
+  height: 24px;
+  background: #ccc;
+  position: absolute;
+  margin-top: -28px;
+  border-radius: 8px;
+  white-space: nowrap;
+  text-align: right;
+  padding-right: 8px;
+  padding-top: 1px;
+  overflow: hidden;
+  opacity: 0;
+}      
+
+.story-estimation-participant-estimate-visible {
+  width: 140px;
+  margin-left: -144px;
+  opacity: 1;
+}
+
+.control-estimations {
+  margin-top: -106px;
+  float: right;
+}
+
+.reset-estimations {
+  background: #c00;
+}
+
+.reveal-estimations {
+  background: #0a0;
+}
+
+.reveal-estimations, .reset-estimations {
+  color: #fff;
+  border-radius: 8px;
+  padding: 8px;
+  margin-left: 8px;
+}
+
+.reveal-estimations:hover, .reveal-estimations:focus,
+.reset-estimations:hover, .reset-estimations:focus {
+  color: #fff;
+}
+
+.reveal-estimations[disabled], .reset-estimations[disabled] {
+  cursor: default;
+  background: #ccc;
+}
+
+.story-estimations {
+  margin-top: -56px;
+  float: right;
+}
+
+.story-estimation {
+  transition: all .4s ease; 
+  display: inline-block;
+  vertical-align: top;
+  padding: 2px 24px;
+  margin-right: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.story-estimation-selected {
+  font-weight: bold;
+}
+
+.story-estimation[disabled] {
+  background: #ccc !important;
+  cursor: default;
+}

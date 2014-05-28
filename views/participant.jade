@@ -1,0 +1,29 @@
+extend layout
+block head
+  link(rel='stylesheet', href='theme.css')
+  script(type="text/javascript",src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js")
+  script(type="text/javascript",src="/common.js")
+  script(type="text/javascript",src="/participant.js")
+block header
+block content
+  div(class="jumbotron")
+    h1
+      |Planning Poker
+    p
+      |Scrum Planning Poker
+  div(class="row")
+    div(class="col-md-12")
+      div(class="page-header")
+        |Story Effort Estimation
+      div(class="story-estimations")
+        each effortEstimation in effortEstimations
+          div(class="story-estimation",style='background:#'+ effortEstimation.color,data-estimation-name=effortEstimation.name,data-estimation-color=effortEstimation.color)
+            = effortEstimation.text
+      div(class="story-estimation-participants")
+    div(class="col-md-12")
+      div(class="current-story-details")
+        |Wait for Master to select the story to be estimated
+  input(type="hidden",name="user-name",value=userName)
+  input(type="hidden",name="user-avatar",value=userAvatar)
+  input(type="hidden",name="user-id",value=userId)
+  input(type="hidden",name="user-role",value=userRole)

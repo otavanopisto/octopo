@@ -1,0 +1,67 @@
+extend layout
+block head
+  link(rel='stylesheet', href='theme.css')
+  script(type="text/javascript",src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js")
+  script(type="text/javascript",src="/common.js")
+  script(type="text/javascript",src="/master.js")
+block header
+block content
+  div(class="jumbotron")
+    h1
+      |Planning Poker
+    p
+      |Scrum Planning Poker
+  div(class="row")
+    div(class="col-md-12")
+      div(class="page-header")
+        |Story Effort Estimation
+      div(class="control-estimations")
+        a(class="reveal-estimations",href="#")
+          |Reveal Estimations
+        a(class="reset-estimations",href="#")
+          |Reset Estimations
+      div(class="story-estimations")
+        each effortEstimation in effortEstimations
+          div(class="story-estimation",style='background:#'+ effortEstimation.color,data-estimation-name=effortEstimation.name,data-estimation-color=effortEstimation.color)
+            = effortEstimation.text
+      div(class="story-estimation-participants")
+    div(class="col-md-12")
+      div(class="current-story-details")
+        |Please select a story
+  div(class="row")
+    div(class="col-md-12")
+      div(class="page-header")
+        |Story Select
+    div(class="col-md-4")
+      h4
+        |Category
+      div(class="list-group category-list-group")
+        each category in categories
+          a(class="list-group-item",href="#",data-category=category)
+            = category
+    div(class="col-md-8")
+      h4
+        |Story
+      div(class="story-lists")
+        each category in categories
+          div(class="list-group story-list-group",style="display: none",data-category=category)
+            each issue in issueDatas[category]
+              a(class="list-group-item")
+                h4(class="list-group-item-heading",data-issue-number=issue.number)
+                  span(class="story-list-story-number")
+                    = issue.number
+                  span(class="story-list-story-title")
+                    = issue.title
+                p
+                  != issue.plainBody
+                div
+                  each epic in issue.epics 
+                    div(class="label label-default story-list-epic",style='background:#'+ epic.color)
+                      = epic.name
+                  each tag in issue.tags
+                    div(class="label label-default story-list-tag",style='background:#'+ tag.color)
+                      = tag.name
+  input(type="hidden",name="user-name",value=userName)
+  input(type="hidden",name="user-avatar",value=userAvatar)
+  input(type="hidden",name="user-id",value=userId)
+  input(type="hidden",name="user-role",value=userRole)
