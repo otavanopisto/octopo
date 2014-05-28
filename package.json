@@ -1,7 +1,7 @@
 {
   "author": "Antti Leppa / Otavan Opisto",
   "name": "octopo",
-  "version": "0.0.2",
+  "version": "0.0.2-4",
   "repository": {
     "type": "git",
     "url": "git://github.com/otavanopisto/octopo.git"
@@ -22,6 +22,6 @@
     "marked": "~0.3.2"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "nodejs app.js"
   }
 }
