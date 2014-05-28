@@ -1,0 +1,27 @@
+{
+  "author": "Antti Leppa / Otavan Opisto",
+  "name": "octopo",
+  "version": "0.0.2",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/otavanopisto/octopo.git"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "dependencies": {
+    "socket.io": "0.9.16",
+    "express": "3.4.8",
+    "passport": "0.2.0",
+    "passport-github": "0.1.5",
+    "github": "0.1.16",
+    "underscore": "1.6.0",
+    "underscore.string": "2.3.3",
+    "jade": "1.3.0",
+    "async": "0.2.10",
+    "marked": "~0.3.2"
+  },
+  "scripts": {
+    "start": "node app.js"
+  }
+}
