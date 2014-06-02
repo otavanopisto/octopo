@@ -14,7 +14,7 @@
   httpServer.listen(config.http.port);
   var io = require('socket.io').listen(httpServer);
   var clients = {};
-  var estimatingStory = null;
+  var estimatingStory = {};
   
   function nocache(req, res, next) {
     res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
@@ -29,6 +29,11 @@
     }
     
     res.redirect('/auth/github?redirectUrl=' + req.path);
+  }
+  
+  function addRoomData(req, res, next){
+	  req.rooms = io.sockets.manager.rooms;
+	  return next();
   }
   
   app.configure(function () {
@@ -71,15 +76,17 @@
       showStack: true
     }));
     
-    /** 
-     * Views
-     */
+    /**
+	 * Views
+	 */
     
     app.get('/', [loggedIn], views.index);
     app.get('/selectrole', [loggedIn], views.selectRole);
+    app.get('/selectroom', [loggedIn], views.selectRoom);
     app.get('/_estimation', [loggedIn], views._estimation);
     app.get('/_save-estimation', [loggedIn], views._saveEstimation);
-    
+    app.get('/_rooms', [loggedIn, addRoomData], views._rooms);
+
     // GitHub
     
     app.get('/auth/github', passport.authenticate('github', { scope: ['user:email', "repo", ] } ));
@@ -97,38 +104,48 @@
   
   io.sockets.on('connection', function (socket) {
     socket.on('issue.select', function (data) {
-      estimatingStory = data.number;
-      io.sockets.emit('issue.select', { number: estimatingStory });
+      estimatingStory[socket.room] = data.number;
+      io.sockets.in(socket.room).emit('issue.select', { number: estimatingStory[socket.room] });
     });
     
     socket.on('issue.estimate', function (data) {
-      io.sockets.emit('issue.estimate', { userId: data.userId, number: data.number, estimationName: data.estimationName, estimationColor: data.estimationColor });
+      io.sockets.in(socket.room).emit('issue.estimate', { userId: data.userId, number: data.number, estimationName: data.estimationName, estimationColor: data.estimationColor });
     });
     
     socket.on('issue.estimate-saved', function (data) {
-      estimatingStory = null;
-      io.sockets.emit('issue.estimate-saved', { number: data.number, estimate: data.estimate });
+      delete estimatingStory[socket.room];
+      io.sockets.in(socket.room).emit('issue.estimate-saved', { number: data.number, estimate: data.estimate });
     });
     
     socket.on('estimations.reveal', function (data) {
-      io.sockets.emit('estimations.reveal', { });
+      io.sockets.in(socket.room).emit('estimations.reveal', { });
     });
     
     socket.on('estimations.reset', function (data) {
-      io.sockets.emit('estimations.reset', { });
+      io.sockets.in(socket.room).emit('estimations.reset', { });
     });
     
     socket.on('join', function (data) {
-      clients[this.id] = data;
-      io.sockets.emit('clients', {clients: _.values(clients)});
+      socket.room = data.currentRoom;
+      if(!clients[socket.room]){
+    	  clients[socket.room] = {};
+      }
+      clients[socket.room][this.id] = data;
+      socket.join(data.currentRoom);
+      console.log("joined to room: "+data.currentRoom);
+      io.sockets.in(socket.room).emit('clients', {clients: _.values(clients[socket.room])});
       
-      if (estimatingStory) {
+      if (estimatingStory[socket.room]) {
         this.emit('issue.select', { number: estimatingStory });
       }
     });
     
     socket.on('disconnect', function() {
-      delete clients[this.id];
+      delete clients[socket.room][this.id];
+      if(_.isEmpty(clients[socket.room])){
+    	  delete clients[socket.room];
+    	  delete estimatingStory[socket.room]; //In case all users disconnect while estimating
+      } 
     });
   });
   

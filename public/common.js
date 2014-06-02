@@ -9,7 +9,8 @@
       userId: $('input[name="user-id"]').val(),
       userName: $('input[name="user-name"]').val(),
       userRole: $('input[name="user-role"]').val(),
-      userAvatar: $('input[name="user-avatar"]').val()
+      userAvatar: $('input[name="user-avatar"]').val(),
+      currentRoom: $('input[name="currentRoom"]').val()
     });
     
     $(document).trigger("socketOpen", { socket: socket });
@@ -19,7 +20,8 @@
       userId: $('input[name="user-id"]').val(),
       userName: $('input[name="user-name"]').val(),
       userRole: $('input[name="user-role"]').val(),
-      userAvatar: $('input[name="user-avatar"]').val()
+      userAvatar: $('input[name="user-avatar"]').val(),
+      currentRoom: $('input[name="currentRoom"]').val()
    });
     
     socket.on('clients', function (data) {

@@ -109,6 +109,10 @@
   module.exports.selectRole = function (req, res) {
     if (req.query.role) {
       req.session.role = req.query.role;
+      if(req.query.newPokerName){
+    	  console.log(req.query.newPokerName);
+    	  req.session.roomName = req.query.newPokerName;
+      }
       res.redirect('/');
     } else {
       res.render('selectrole', {
@@ -118,6 +122,20 @@
       });
     }
   };
+  
+  module.exports.selectRoom = function (req, res) {
+    if (req.query.room) {
+      req.session.roomName = req.query.room;
+      res.redirect('/');
+    } else {
+      res.render('selectroom', {
+        title : 'Select Poker Room',
+        user: config.github.user,
+        repo: config.github.repo
+      });
+    }
+  };
+  
 
   module.exports.index = function (req, res) {
     if (!req.session.role) {
@@ -156,7 +174,8 @@
                         userId: user.id,
                         userAvatar: user.avatar_url,
                         userName: user.name,
-                        userRole: req.session.role
+                        userRole: req.session.role,
+                        currentRoom: req.session.roomName
                       });
                     }
                   });
@@ -173,6 +192,8 @@
               github.user.get({}, function (userErr, user) {
                 if (userErr) {
                   res.send(500, userErr);
+                }else if(!req.session.roomName){
+                	res.redirect('/selectroom');
                 } else {
                   res.render('participant', {
                     title : 'OctoPo',
@@ -182,7 +203,8 @@
                     userId: user.id,
                     userAvatar: user.avatar_url,
                     userName: user.name,
-                    userRole: req.session.role
+                    userRole: req.session.role,
+                    currentRoom: req.session.roomName
                   });
                 }
               });
@@ -274,6 +296,10 @@
         });
       }
     });
+  };
+  
+  module.exports._rooms = function (req, res) {
+	  res.send(req.rooms);
   };
   
 }).call(this);
