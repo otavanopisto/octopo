@@ -132,3 +132,12 @@ body {
   background: #ccc !important;
   cursor: default;
 }
+.participant-avatar-img {
+	width:32px;
+	height:32px;
+}
+
+.placeholder {
+    color: #ccc;
+    margin: 20px;
+}
