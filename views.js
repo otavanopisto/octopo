@@ -97,11 +97,13 @@
     
     async.parallel(calls, function (errs, labels) {
       done(errs, _.map(labels, function (label) {
-        return {
-          name: label.name,
-          color: label.color,
-          text: eeMap[label.name]
-        };
+        if(label){
+	    	return {
+	          name: label.name,
+	          color: label.color,
+	          text: eeMap[label.name]
+	        };
+        }
       }));
     });
   }
