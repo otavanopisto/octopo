@@ -2,27 +2,31 @@ extend layout
 block head
   link(rel='stylesheet', href='theme.css')
   script(type="text/javascript",src="/select.js")
+  script(type="text/javascript",src="/room.js")
 block header
 block content
   div(class="jumbotron")
     h1
-      |Role Select
+      |Poker Select
     p
-      |Select your role for this session
+      |Select session to join or start a new one.
   div(class="page-header")
     Role Select
   div(class="row")
     div(class="col-md-6")
+      p
+        |Ongoing poker sessions:
+      div(id="available-rooms")
+        div(id="roomList" class="list-group")
+        p(class="placeholder")
+          |No poker sessions available, please wait, or
       form(class="form-inline", role="form" method="get", action="/selectrole")
-        a(id="masterBtn", data-toggle="button", class="btn btn-lg btn-primary", href="#")
-          |Master
+        a(id="masterBtn", data-toggle="button", class="btn btn-default", href="#")
+          |Start new session
         div(id="roomNameContainer", class="form-group", style="display:none;")
           label(for="newRoomName")
             |&nbsp;&nbsp;Name of the poker:&nbsp;&nbsp;
           input(type="hidden", value="master", name="role")
-          input(type="text", name="newPokerName", class="form-control", id="newRoomName")
-          button(id="startPokerBtn", type="submit", class="btn btn-default" disabled="disabled")
-            |Start Poker
-      br
-      a(class="btn btn-lg btn-info",href="/selectrole?role=participant")
-        |Participant
+          input(type="text", name="room", class="form-control", id="newRoomName")
+          button(id="startPokerBtn", type="submit", class="btn btn-primary" disabled="disabled")
+            |Start

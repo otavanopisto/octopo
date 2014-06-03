@@ -15,11 +15,11 @@
 				  roomName = roomName.replace("/", "");
 				  foundRooms.push(roomName);
 				  if($("#room_"+roomName).length == 0){
-					  $("#available-rooms").append("<a href='/selectroom?room="+roomName+"' id='room_"+roomName+"' >"+roomName+"</a>");
+					  $("#roomList").append("<a class='list-group-item' href='/selectrole?role=participant&room="+roomName+"' id='room_"+roomName+"' >"+roomName+"</a>");
 				  }
 			  }
 		  }
-		  $("#available-rooms").children().each(function(){
+		  $("#roomList").children().each(function(){
 			  if($(this)[0].hasAttribute("id")){
 			  var domRoom = $(this).attr("id").split("_")[1];
 				  if(foundRooms.indexOf(domRoom) == -1){
@@ -27,8 +27,8 @@
 				  }
 			  }
 		  });
-		  if ($('#available-rooms').is(':empty')){
-			  $("#available-rooms").append("<p class='placeholder'>No poker sessions available, please wait for the master to start one.</p>");
+		  if ($('#roomList').is(':empty') && $('.placeholder').length == 0){
+			  $("#available-rooms").append("<p class='placeholder'>No poker sessions available, please wait, or.</p>");
 		  }
 	  });
   }
