@@ -82,7 +82,6 @@
     
     app.get('/', [loggedIn], views.index);
     app.get('/selectrole', [loggedIn], views.selectRole);
-    app.get('/selectroom', [loggedIn], views.selectRoom);
     app.get('/_estimation', [loggedIn], views._estimation);
     app.get('/_save-estimation', [loggedIn], views._saveEstimation);
     app.get('/_rooms', [loggedIn, addRoomData], views._rooms);
@@ -141,11 +140,15 @@
     });
     
     socket.on('disconnect', function() {
-      delete clients[socket.room][this.id];
-      if(_.isEmpty(clients[socket.room])){
-    	  delete clients[socket.room];
-    	  delete estimatingStory[socket.room]; //In case all users disconnect while estimating
-      } 
+      if(socket.room){ //TODO: figured out why disconnect is fired 2 times on refresh
+    	  delete clients[socket.room][this.id];
+	      if(_.isEmpty(clients[socket.room])){
+	    	  delete clients[socket.room];
+	    	  delete estimatingStory[socket.room]; //In case all users disconnect while estimating
+	      }else{
+	          io.sockets.in(socket.room).emit('clients', {clients: _.values(clients[socket.room])});
+	      }
+      }
     });
   });
   

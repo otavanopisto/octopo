@@ -26,20 +26,27 @@
     
     socket.on('clients', function (data) {
       var clients = data.clients;
-      
+      var activeParticipants = [];
       for (var i = 0, l = clients.length; i < l; i++) {
         var client = clients[i];
         if (client.userRole === 'participant') {
+          activeParticipants.push(client.userId);
           if ($('div.story-estimation-participant[data-userId="' + client.userId + '"]').length === 0) {
             $('<div>')
               .attr({ 'data-userId': client.userId, 'title': client.userName })
-              .append($('<img>').attr('src', client.userAvatar + 's=32'))
+              .append($('<img>').attr('src', client.userAvatar + 's=32').addClass("participant-avatar-img"))
               .append($('<div>').addClass("story-estimation-participant-estimate"))
               .addClass('story-estimation-participant')
               .appendTo('.story-estimation-participants');
           }
         }
       }
+      $('.story-estimation-participant').each(function(){
+    	  var userid = $(this).data('userid').toString();
+		  if(activeParticipants.indexOf(userid) == -1){
+			  $(this).remove();
+		  }
+      });
     });
     
     socket.on('issue.estimate', function (data) {
